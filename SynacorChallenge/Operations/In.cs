@@ -13,6 +13,7 @@ namespace SynacorChallenge.Operations
 			int character = Console.Read();
 			Number a = processor.GetNumber(processor.Cursor + 1);
 			a.Value = (ushort) character;
+			processor.Cursor += Length;
 		}
 	}
 }
