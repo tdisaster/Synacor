@@ -11,15 +11,17 @@ namespace SynacorChallenge.Model
 		public Processor()
 		{
 			Memory = new Memory();
+			Stack = new Stack(Memory);
 		}
 
-		public Processor(byte[] mem)
+		public Processor(byte[] mem) : base()
 		{
 			Memory = new Memory(mem);
+			Stack = new Stack(Memory);
 			Cursor = new Number(Memory, 0);
 		}
 
-		public Stack Stack { get; } = new Stack();
+		public Stack Stack { get; }
 
 		public Memory Memory { get; }
 		public bool Stopped { get; set; } = false;

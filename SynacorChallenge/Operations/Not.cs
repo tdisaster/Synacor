@@ -11,7 +11,12 @@ namespace SynacorChallenge.Operations
 		{
 			Number a = processor.GetNumber(processor.Cursor + 1);
 			Number b = processor.GetNumber(processor.Cursor + 2);
-			a.Value = (ushort) ((b.Value ^ b.Value) % Number.ARegister);
+			ushort val = b.Value;
+			val = (ushort) (val << 1);
+			val = (ushort) ~val ;
+			val = (ushort)(val >> 1);
+
+			a.Value = val;
 
 			processor.Cursor += Length;
 		}

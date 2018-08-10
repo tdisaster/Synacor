@@ -10,8 +10,7 @@ namespace SynacorChallenge.Operations
 		public void Handle(Processor processor)
 		{
 			Number a = processor.GetNumber(processor.Cursor + 1);
-			Number b = processor.GetNumber(processor.Cursor + 2);
-			processor.Stack.Push(b);
+			processor.Stack.Push(processor.Cursor + 2);
 			processor.Cursor.Value = a.Value;
 		}
 	}

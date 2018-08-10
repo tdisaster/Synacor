@@ -11,7 +11,7 @@ namespace SynacorChallenge.Operations
 		{
 			Number a = processor.GetNumber(processor.Cursor + 1);
 			Number b = processor.GetNumber(processor.Cursor + 2);
-			processor.Memory.Set(a, b);
+			processor.Memory.Set(a.Value, b.Value);
 			processor.Cursor += Length;
 		}
 	}
