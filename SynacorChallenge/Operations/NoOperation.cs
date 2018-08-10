@@ -1,4 +1,6 @@
-﻿namespace SynacorChallenge.Model
+﻿using SynacorChallenge.Model;
+
+namespace SynacorChallenge.Operations
 {
 	public class NoOperation : IOperation
 	{
@@ -7,6 +9,7 @@
 
 		public void Handle(Processor processor)
 		{
+			processor.Cursor += Length;
 		}
 	}
 }

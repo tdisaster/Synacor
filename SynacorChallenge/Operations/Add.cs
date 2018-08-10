@@ -1,4 +1,7 @@
-﻿namespace SynacorChallenge.Model
+﻿using System.Runtime.Remoting.Lifetime;
+using SynacorChallenge.Model;
+
+namespace SynacorChallenge.Operations
 {
 	public class Add : IOperation
 	{
@@ -11,8 +14,8 @@
 			Number a = processor.GetNumber(processor.Cursor + 2);
 			Number b = processor.GetNumber(processor.Cursor + 3);
 			processor.Memory.Set(dest, a + b);
-			dest = a + b;
 
+			processor.Cursor += Length;
 		}
 	}
 }

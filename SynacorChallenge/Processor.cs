@@ -13,16 +13,18 @@ namespace SynacorChallenge.Model
 			Memory = new Memory();
 		}
 
-		public Processor(byte []mem)
+		public Processor(byte[] mem)
 		{
 			Memory = new Memory(mem);
+			Cursor = new Number(Memory, 0);
 		}
-		public List<Number> Stack { get; } = new List<Number>();
+
+		public Stack Stack { get; } = new Stack();
 
 		public Memory Memory { get; }
 		public bool Stopped { get; set; } = false;
 
-		public Number Cursor = new Number(0);
+		public Number Cursor;
 
 		public Number GetNumber(Number address)
 		{

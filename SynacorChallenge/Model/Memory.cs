@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SynacorChallenge.Model
 {
@@ -10,7 +6,6 @@ namespace SynacorChallenge.Model
 	{
 		public Memory()
 		{
-
 		}
 
 		public Memory(byte[] values)
@@ -19,32 +14,41 @@ namespace SynacorChallenge.Model
 			{
 				throw new Exception("Invalida data");
 			}
-			for (int i = 0; i < values.Length; i+=2)
+
+			for (int i = 0; i < values.Length; i += 2)
 			{
-				Values[i] = new Number(values, i).Value;
+				Values[i / 2] = BitConverter.ToUInt16(values, i);
 			}
 		}
 
-		private readonly ushort[] Values = new ushort[Number.MaxValue + 8];
+		public readonly ushort[] Values = new ushort[Number.MaxRegValue + 1];
 
-		public ushort A => Values[Number.MaxValue + 1];
-		public ushort B => Values[Number.MaxValue + 2];
-		public ushort C => Values[Number.MaxValue + 3];
-		public ushort D => Values[Number.MaxValue + 4];
-		public ushort E => Values[Number.MaxValue + 5];
-		public ushort F => Values[Number.MaxValue + 6];
-		public ushort G => Values[Number.MaxValue + 7];
-		public ushort H => Values[Number.MaxValue + 8];
-
-
-		public Number Get(Number address)
+		public Number Get(ushort address)
 		{
-			return new Number(Values[address.Value]);
+			return new Number(this, Values[address]);
 		}
 
-		public void Set(Number address, Number number)
+		public Number Get(Number number)
 		{
-			Values[address.Value] = number.Value;
+			return Get(number.Value);
+		}
+
+
+		public void Set(ushort a, ushort b)
+		{
+			Values[a] = b;
+		}
+
+		public void Set(Number a, Number b)
+		{
+			if (a.IsRegister)
+			{
+				a.Value = b.Value;
+			}
+			else
+			{
+				Values[a.Value] = b.Value;
+			}
 		}
 
 

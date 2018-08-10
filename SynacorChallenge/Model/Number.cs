@@ -4,29 +4,82 @@ namespace SynacorChallenge.Model
 {
 	public struct Number : IComparable<ushort>, IComparable<Number>, IEquatable<ushort>, IEquatable<Number>, IComparable<int>, IEquatable<int>
 	{
-		public ushort Value { get; set; }
+		#region Properties
 
-		public Number(ushort value)
+		public static readonly ushort MaxValue = 32768 - 1;
+		public static readonly ushort MaxRegValue = 32768 + 7;
+		public static readonly ushort ARegister = 32768 + 0;
+		public static readonly ushort BRegister = 32768 + 1;
+		public static readonly ushort CRegister = 32768 + 2;
+		public static readonly ushort DRegister = 32768 + 3;
+		public static readonly ushort ERegister = 32768 + 4;
+		public static readonly ushort FRegister = 32768 + 5;
+		public static readonly ushort GRegister = 32768 + 6;
+		public static readonly ushort HRegister = 32768 + 7;
+		private ushort _value;
+		private Memory _memory;
+
+
+		public ushort Value
 		{
+			get
+			{
+				if (_value > MaxValue)
+				{
+					return _memory.Get(_value).Value;
+				}
+
+				return _value;
+			}
+			set
+			{
+				if (value > MaxRegValue)
+				{
+					throw new Exception("Invalid number");
+				}
+
+
+				if (IsRegister)
+				{
+					_memory.Set(_value, value);
+				}
+				else
+				{
+					_value = value;
+				}
+			}
+		}
+
+		public bool IsRegister => _value > MaxValue;
+
+		#endregion
+
+		#region Constructor
+
+		public Number(Memory memory, ushort value) : this()
+		{
+			_memory = memory;
 			Value = value;
 		}
 
-		public Number(byte a, byte b)
+		public Number(Memory memory, byte[] data, int index) : this()
 		{
-			Value = (ushort)((b << 8) + a);
+			_memory = memory;
+			Value = ToShort(data, index);
 		}
 
-		public Number(byte[] arr, int index)
+		#endregion
+
+		private ushort ToShort(byte[] data, int index)
 		{
-			if (index >= 0 && arr.Length > index + 1)
+			if (index >= 0 && data.Length > index + 1)
 			{
-				Value = (ushort) ((arr[index+1] << 8) + arr[index]);
+				return (ushort) ((data[index + 1] << 8) + data[index]);
 			}
-			else
-			{
-				throw new Exception("Invalid range");
-			}
+
+			throw new Exception("Invalid array range");
 		}
+
 
 		public int CompareTo(Number other)
 		{
@@ -61,7 +114,7 @@ namespace SynacorChallenge.Model
 		public override bool Equals(object obj)
 		{
 			if (ReferenceEquals(null, obj)) return false;
-			return obj is Number && Equals((Number)obj) || obj is int && Equals((int)obj);
+			return obj is Number && Equals((Number) obj) || obj is int && Equals((int) obj);
 		}
 
 		public override int GetHashCode()
@@ -70,18 +123,28 @@ namespace SynacorChallenge.Model
 		}
 
 
-		public static readonly ushort MaxValue = 32768;
 		public static Number operator +(Number b, Number c)
 		{
-			int sum = (b.Value + c.Value) % MaxValue;
-			return new Number((ushort)sum);
+			int sum = (b.Value + c.Value) % (MaxValue + 1);
+			return new Number(b._memory, (ushort) sum);
 		}
 
 		public static Number operator +(Number b, int c)
 		{
-			int sum = (b.Value + c) % MaxValue;
-			return new Number((ushort)sum);
+			int sum = (b.Value + c) % (MaxValue + 1);
+			return new Number(b._memory, (ushort) sum);
 		}
+
+		public static bool operator >(Number b, Number c)
+		{
+			return b.Value > c.Value;
+		}
+
+		public static bool operator <(Number b, Number c)
+		{
+			return b.Value < c.Value;
+		}
+
 
 		public static bool operator ==(Number a, Number b)
 		{
@@ -91,6 +154,17 @@ namespace SynacorChallenge.Model
 		public static bool operator !=(Number a, Number b)
 		{
 			return a.Value != b.Value;
+		}
+
+
+		public override string ToString()
+		{
+			if (IsRegister)
+			{
+				return $"REG {_value - MaxValue} : {Value}";
+			}
+
+			return $"VAL {Value}";
 		}
 	}
 }

@@ -42,20 +42,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Add.cs" />
-    <Compile Include="Model\IOperation.cs" />
-    <Compile Include="Model\NoOperation.cs" />
+    <Compile Include="Model\Stack.cs" />
+    <Compile Include="Operations\Add.cs" />
+    <Compile Include="Operations\And.cs" />
+    <Compile Include="Operations\Call.cs" />
+    <Compile Include="Operations\Equality.cs" />
+    <Compile Include="Operations\GreatherThan.cs" />
+    <Compile Include="Operations\In.cs" />
+    <Compile Include="Operations\IOperation.cs" />
+    <Compile Include="Operations\Jump.cs" />
+    <Compile Include="Operations\JumpNotZero.cs" />
+    <Compile Include="Operations\JumpZero.cs" />
+    <Compile Include="Operations\Mod.cs" />
+    <Compile Include="Operations\Multiply.cs" />
+    <Compile Include="Operations\NoOperation.cs" />
     <Compile Include="Model\Number.cs" />
-    <Compile Include="Model\OperationGenerator.cs" />
+    <Compile Include="Operations\Not.cs" />
+    <Compile Include="Operations\Or.cs" />
+    <Compile Include="Operations\Pop.cs" />
+    <Compile Include="Operations\Push.cs" />
+    <Compile Include="Operations\ReadMemory.cs" />
+    <Compile Include="Operations\Return.cs" />
+    <Compile Include="Operations\Set.cs" />
+    <Compile Include="Operations\WriteMemory.cs" />
+    <Compile Include="Runner.cs" />
     <Compile Include="Model\Memory.cs" />
-    <Compile Include="Model\Out.cs" />
-    <Compile Include="Model\Processor.cs" />
-    <Compile Include="Model\Stop.cs" />
+    <Compile Include="Operations\Out.cs" />
+    <Compile Include="Processor.cs" />
+    <Compile Include="Operations\Stop.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="Resources\arch-spec.txt" />
+    <Content Include="Resources\challenge.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\simple.bin">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

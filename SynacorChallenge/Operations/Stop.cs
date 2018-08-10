@@ -1,4 +1,6 @@
-﻿namespace SynacorChallenge.Model
+﻿using SynacorChallenge.Model;
+
+namespace SynacorChallenge.Operations
 {
 	public class Stop : IOperation
 	{
