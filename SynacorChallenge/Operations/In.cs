@@ -10,9 +10,9 @@ namespace SynacorChallenge.Operations
 
 		public void Handle(Processor processor)
 		{
-			int character = Console.Read();
+			int character = Console.ReadKey().KeyChar;
 			Number a = processor.GetNumber(processor.Cursor + 1);
-			a.Value = (ushort) character;
+			a.Value = (ushort) character == 13 ? (ushort)10 : (ushort)character;
 			processor.Cursor += Length;
 		}
 	}
